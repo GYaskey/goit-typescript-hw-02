@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { fetchImages } from './assets/fetchImages';
 import Modal from 'react-modal';
 import toast, { Toaster } from 'react-hot-toast';
 import './App.css';
@@ -11,16 +10,17 @@ import ErrorMessage from './components/ErrorMessage/ErrorMessage';
 import LoadMoreBtn from './components/LoadMoreBtn/LoadMoreBtn';
 import ImageModal from './components/ImageModal/ImageModal';
 import { Images } from './App.types';
+import { fetchImages } from './assets/fetchImages';
 
-const App = () => {
+const App: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
   const [images, setImages] = useState<Images[]>([]);
   const [query, setQuery] = useState<string>('');
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState<number>(1);
   const [showLoadMore, setShowLoadMore] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedImage, setSelectedImage] = useState<string>('');
 
   useEffect(() => {
     Modal.setAppElement('#root');
@@ -42,6 +42,13 @@ const App = () => {
         }
       } catch (error) {
         setIsError(true);
+        if (error instanceof Error) {
+          throw new Error(
+            `Failed to fetch images from the API: ${error.message}`
+          );
+        } else {
+          throw new Error('Failed to fetch images from the API: Unknown error');
+        }
       } finally {
         setIsLoading(false);
       }
@@ -49,7 +56,7 @@ const App = () => {
     getData();
   }, [query, page]);
 
-  const handleChangeQuery = newQuery => {
+  const handleChangeQuery = (newQuery: string) => {
     setImages([]);
     setQuery(newQuery);
     setPage(1);
@@ -59,13 +66,13 @@ const App = () => {
     setPage(prev => prev + 1);
   };
 
-  const openModal = imageUrl => {
+  const openModal = (imageUrl: string) => {
     setSelectedImage(imageUrl);
     setIsModalOpen(true);
   };
 
   const closeModal = () => {
-    setSelectedImage(null);
+    setSelectedImage('');
     setIsModalOpen(false);
   };
 

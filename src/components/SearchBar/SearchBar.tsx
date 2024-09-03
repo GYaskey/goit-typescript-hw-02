@@ -3,10 +3,22 @@ import { FaSearch } from 'react-icons/fa';
 import s from './SearchBar.module.css';
 import * as Yup from 'yup';
 
-const SearchBar = ({ handleChangeQuery }) => {
-  const initialValues = { search: '' };
+interface SearchBarProps {
+  handleChangeQuery: (query: string) => void;
+}
 
-  const handleSubmit = (value, options) => {
+type Value = {
+  search: string;
+};
+
+type Options = {
+  resetForm: () => void;
+};
+
+const SearchBar: React.FC<SearchBarProps> = ({ handleChangeQuery }) => {
+  const initialValue = { search: '' };
+
+  const handleSubmit = (value: Value, options: Options) => {
     handleChangeQuery(value.search.trim());
     options.resetForm();
   };
@@ -21,7 +33,7 @@ const SearchBar = ({ handleChangeQuery }) => {
   return (
     <header className={s.header}>
       <Formik
-        initialValues={initialValues}
+        initialValues={initialValue}
         onSubmit={handleSubmit}
         validationSchema={searchSchema}
       >
