@@ -1,0 +1,21 @@
+.gallery {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: center;
+  margin: 20px;
+}
+
+.galleryItem {
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  transition: transform 0.3s ease;
+}
+
+.galleryItem:hover {
+  transform: scale(1.05);
+}

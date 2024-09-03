@@ -1,0 +1,13 @@
+.imageCard {
+  position: relative;
+  overflow: hidden;
+  max-height: 256px;
+  border-radius: 12px;
+}
+
+.galleryImage {
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: transform 0.3s ease;
+}
